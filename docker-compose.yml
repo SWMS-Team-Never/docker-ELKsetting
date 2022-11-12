@@ -9,6 +9,38 @@ services:
   # This task is only performed during the *initial* startup of the stack. On all
   # subsequent runs, the service simply returns immediately, without performing
   # any modification to existing users.
+
+  #django settings
+
+  backend: # 서비스
+    build:
+      context: ./django # 현재 폴더를 빌드할 폴더로 선택
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app # . (현재 로컬 폴더)의 모든 파일과 /app을 링크하여 모든 파일 변경사항 반영
+    depends_on:
+      - mysql_db
+      - elasticsearch
+
+  mysql_db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ohto_db
+      MYSQL_USER: ohto
+      MYSQL_PASSWORD: Never123
+      MYSQL_ROOT_PASSWORD: Never123
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./django/dbdata:/var/lib/mysql
+
+  # ELK settings
+
   setup:
     build:
       context: setup/
