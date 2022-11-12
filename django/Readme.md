@@ -14,12 +14,11 @@
 <h2>elasticsearch</h2>
 1. install
 > 1. pip install elasticsearch
-> 2. elasticsearch-plugin remove analysis-nori
+> 2. elasticsearch-plugin install analysis-nori
+
 2. data bulk하기
 > 1. cd /django/search_music
-> 
 > 2. python setting_bulk.py
-> 
 >3. curl -H "Content-Type: application/json" -X POST -u elastic:changeme http://localhost:9200/_bulk\?pretty --data-binary @./data/input.json
 
 3. search 방법
