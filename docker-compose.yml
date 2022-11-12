@@ -20,7 +20,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./popol:/srv/django
+      - ./django:/srv/docker-ELKsetting
       - ./log:/var/log/nginx
       - ./django/static/:/static
     depends_on:
@@ -33,7 +33,7 @@ services:
       restart: always
       command: uwsgi --ini uwsgi.ini
       volumes:
-        - ./django:/srv/django
+        - ./django:/srv/docker-ELKsetting
         - ./log:/var/log/uwsgi
       depends_on:
         - mysql_db
