@@ -11,18 +11,32 @@ services:
   # any modification to existing users.
 
   #django settings
-
-  backend: # 서비스
-    build:
-      context: ./django # 현재 폴더를 빌드할 폴더로 선택
-      dockerfile: Dockerfile
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    image: nginx
+    restart: always
+    network_mode: "host"
     ports:
-      - "8000:8000"
+      - "80:80"
     volumes:
-      - .:/app # . (현재 로컬 폴더)의 모든 파일과 /app을 링크하여 모든 파일 변경사항 반영
+      - ./popol:/srv/django
+      - ./log:/var/log/nginx
+      - ./django/static/:/static
     depends_on:
-      - mysql_db
-      - elasticsearch
+      - django
+
+  django:
+      container_name: django
+      build: ./django
+      image: django
+      restart: always
+      command: uwsgi --ini uwsgi.ini
+      volumes:
+        - ./django:/srv/django
+        - ./log:/var/log/uwsgi
+      depends_on:
+        - mysql_db
 
   mysql_db:
     image: mysql:8.0
