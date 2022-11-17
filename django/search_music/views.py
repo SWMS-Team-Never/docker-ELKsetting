@@ -31,7 +31,9 @@ class SearchView(APIView):
                                  }
                              }
                          })
-
-        data_list = docs['hits']
+        data_list = []
+        for data in docs['hits']['hits']:
+            data_list.append(data.get('_id'))
+            data_list.append(data.get('_source'))
 
         return Response(data_list)

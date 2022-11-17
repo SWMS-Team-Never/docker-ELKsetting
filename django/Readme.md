@@ -27,3 +27,13 @@
 > 
 > plsylist:
 > - localhost:8000/playlist/?search=
+> 
+ 
+<h2>실행 방법</h2>
+> 1. docker-compose build
+> 2. docker-compose up -d
+> 3. cd django
+> 4. python manage.py runserver
+> 5. 다음 elasticsearch 위에 부분 순서대로 실행
+
+서버 분리중이라 playlist 검색 기능은 누락된 상태
